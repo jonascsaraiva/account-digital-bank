@@ -4,7 +4,7 @@ import logo from './assets/logo.svg'
 import './App.css'
 
 function App() {
-  // 1º Passo: Criação dos estados
+  // Criação dos estados
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [habilitarBotao, setHabilitarBotao] = useState(false);
   const [campos, setCampos] = useState({
@@ -15,7 +15,17 @@ function App() {
   });
   const [mensagem, setMensagem] = useState(false);
 
-  // 2º Passo: Implementação dos métodos
+  // Método para calcular a porcentagem de progresso
+  const calcularProgresso = () => {
+    let camposPreenchidos = 0;
+    if (campos.nome) camposPreenchidos++;
+    if (campos.telefone) camposPreenchidos++;
+    if (campos.email) camposPreenchidos++;
+    if (campos.password) camposPreenchidos++;
+
+    // Calcula a porcentagem com base no número de campos preenchidos
+    return (camposPreenchidos / 4) * 100;
+  };
 
   // Método para atualizar os campos do formulário
   const atualizarCampo = (e) => {
@@ -36,7 +46,7 @@ function App() {
     setHabilitarBotao(e.target.checked);
   };
 
-  // 3º Passo: Finalização do formulário
+  // Finalização do formulário
   const finalizarFormulario = (e) => {
     e.preventDefault();
     if (campos.nome && campos.telefone && campos.email && campos.password && habilitarBotao) {
@@ -72,7 +82,7 @@ function App() {
         <form className="formulario flex flex-column" onSubmit={finalizarFormulario}>
           <div className="progresso">
             <label>Preencha os campos</label>
-            <progress value="100" max="100"></progress>
+            <progress value={calcularProgresso()} max="100"></progress>
           </div>
 
           <div className="flex flex-column">
@@ -143,7 +153,7 @@ function App() {
         </form>
 
         {/* Exibe a mensagem após o envio */}
-        {mensagem && <p>{mensagem}</p>}
+        {mensagem && <p className='flex'>{mensagem}</p>}
       </div>
     </main>
   );
